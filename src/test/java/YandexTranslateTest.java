@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
 import entities.Translations;
 import gateway.YandexTranslationGateway;
 import org.junit.jupiter.api.Assertions;
@@ -14,15 +13,16 @@ public class YandexTranslateTest {
 
     @Test
     @DisplayName("Перевод текста")
-    public void checkTextTranslated() throws JsonProcessingException {
+    public void checkTextTranslated() {
         Translations translations = yandexTranslateGateway.
                 getYandexTranslateResponse(textToTranslate, targetLanguageCodeValue).as(Translations.class);
+        System.out.println(translations.getTranslations().get(0).getText());
         Assertions.assertEquals(translations.getTranslations().get(0).getText(), translatedText);
     }
 
     @Test
     @DisplayName("Проверка времени исполнения запроса")
-    public void checkResponseTime() throws JsonProcessingException {
+    public void checkResponseTime() {
         timeExecution = yandexTranslateGateway.
                 getYandexTranslateResponse(textToTranslate, targetLanguageCodeValue).then().extract().time();
         Assertions.assertTrue(timeExecution<=5000);

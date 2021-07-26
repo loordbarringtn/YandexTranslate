@@ -14,11 +14,4 @@ public class Translations {
         this.translations = translations;
     }
 
-
-
-
-
-
-
-
 }

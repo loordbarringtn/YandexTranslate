@@ -15,28 +15,36 @@ public class YandexTranslationGateway {
     private static final String apiKey = dotenv.get("apiKey");
     private static final String folderIdKey = dotenv.get("folderIdKey");
 
-    public Response getYandexTranslateResponse (String translateText, String languageOutput) throws JsonProcessingException {
+    public Response getYandexTranslateResponse(String translateText, String languageOutput) {
         RestAssured.baseURI = "https://translate.api.cloud.yandex.net/translate/v2/translate";
 
         Response response = given().contentType(JSON).
                 header("Authorization", "Api-Key " + apiKey).
-                body(makeJson(translateText,languageOutput)).post().then().extract().response();
+                body(makeJson(translateText, languageOutput)).
+                post().
+                then().
+                extract().
+                response();
 
         return response;
     }
 
-    public String makeJson (String translateText, String languageOutput) throws JsonProcessingException {
+    public String makeJson(String translateText, String languageOutput) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonBody = mapper.createObjectNode();
+
+        jsonBody.put("folderId", folderIdKey);
+        jsonBody.put("texts", translateText);
+        jsonBody.put("targetLanguageCode", languageOutput);
+
+        String jsonBodyResult = null;
+
         try {
-            jsonBody.put("folderId", folderIdKey);
-            jsonBody.put("texts", translateText);
-            jsonBody.put("targetLanguageCode", languageOutput);
+            jsonBodyResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonBody);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonBody);
+        return jsonBodyResult;
     }
 
 }
