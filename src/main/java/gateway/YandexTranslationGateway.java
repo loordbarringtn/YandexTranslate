@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -16,7 +15,6 @@ public class YandexTranslationGateway {
     private static final String apiKey = dotenv.get("apiKey");
     private static final String folderIdKey = dotenv.get("folderIdKey");
 
-    @Test
     public Response getYandexTranslateResponse (String translateText, String languageOutput) throws JsonProcessingException {
         RestAssured.baseURI = "https://translate.api.cloud.yandex.net/translate/v2/translate";
 
