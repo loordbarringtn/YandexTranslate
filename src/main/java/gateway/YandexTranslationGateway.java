@@ -41,9 +41,4 @@ public class YandexTranslationGateway {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonBody);
     }
 
-     static void loadEnvironmentProperties() {
-        Dotenv ENVIRONMENT = Dotenv.load();
-        ENVIRONMENT.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
-    }
-
 }
